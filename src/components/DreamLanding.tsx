@@ -126,13 +126,14 @@ const DreamLanding = () => {
           <div className="absolute inset-0 bg-gradient-radial from-primary/20 to-transparent rounded-full blur-xl" />
           
          {/* Dream Guardian Bear on Moon - Using Image Asset */}
-<div className="absolute inset-0 flex items-center justify-center">
-  <img 
-    src="/images/ip/dream-guardian-bear.png" 
-    alt="Dream Guardian Bear Logo"
-    className="w-28 h-28 object-contain bear-float" 
-  />
-</div>
+         <div className="absolute inset-0 flex items-center justify-center">
+           <img 
+             src="/images/ip/dream-guardian-bear.png" 
+             alt="Dream Guardian Bear Logo"
+             className="w-28 h-28 object-contain bear-float" 
+           />
+         </div>
+        </div>
         
         {/* Background Stars with Breathing Effect */}
         <Sparkles className="absolute top-4 left-1/2 transform -translate-x-1/2 -translate-y-4 w-4 h-4 text-accent star-breathe" style={{ animationDelay: '0s' }} />
