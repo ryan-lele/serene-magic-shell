@@ -125,31 +125,14 @@ const DreamLanding = () => {
           <Moon className="w-full h-full text-primary gentle-float" />
           <div className="absolute inset-0 bg-gradient-radial from-primary/20 to-transparent rounded-full blur-xl" />
           
-          {/* Dream Guardian Bear on Moon */}
-          <div className="absolute inset-0 flex items-center justify-center bear-float">
-            <div className="relative">
-              {/* Bear Body - represented by circle */}
-              <div className="w-16 h-20 bg-gradient-to-b from-accent/60 to-accent/40 rounded-full relative">
-                {/* Bear Face */}
-                <div className="w-12 h-12 bg-gradient-to-b from-accent/70 to-accent/50 rounded-full absolute -top-6 left-2">
-                  {/* Ears */}
-                  <div className="w-3 h-3 bg-accent/60 rounded-full absolute -top-1 left-1"></div>
-                  <div className="w-3 h-3 bg-accent/60 rounded-full absolute -top-1 right-1"></div>
-                  {/* Eyes (closed peaceful) */}
-                  <div className="w-1 h-0.5 bg-primary/60 rounded-full absolute top-4 left-3"></div>
-                  <div className="w-1 h-0.5 bg-primary/60 rounded-full absolute top-4 right-3"></div>
-                  {/* Nose */}
-                  <div className="w-1 h-1 bg-primary/40 rounded-full absolute top-5 left-1/2 transform -translate-x-1/2"></div>
-                </div>
-                {/* Arms holding star */}
-                <div className="w-3 h-8 bg-accent/50 rounded-full absolute top-4 -left-2 rotate-12"></div>
-                <div className="w-3 h-8 bg-accent/50 rounded-full absolute top-4 -right-2 -rotate-12"></div>
-                {/* Glowing Star in bear's arms */}
-                <Star className="w-6 h-6 text-primary absolute top-6 left-1/2 transform -translate-x-1/2 star-breathe" fill="currentColor" />
-              </div>
-            </div>
-          </div>
-        </div>
+         {/* Dream Guardian Bear on Moon - Using Image Asset */}
+<div className="absolute inset-0 flex items-center justify-center">
+  <img 
+    src="/images/ip/dream-guardian-bear.png" 
+    alt="Dream Guardian Bear Logo"
+    className="w-28 h-28 object-contain bear-float" 
+  />
+</div>
         
         {/* Background Stars with Breathing Effect */}
         <Sparkles className="absolute top-4 left-1/2 transform -translate-x-1/2 -translate-y-4 w-4 h-4 text-accent star-breathe" style={{ animationDelay: '0s' }} />
