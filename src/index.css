@@ -147,6 +147,14 @@
     animation: star-twinkle 2s ease-in-out infinite alternate;
   }
 
+  .bear-float {
+    animation: bear-float 5s ease-in-out infinite;
+  }
+
+  .star-breathe {
+    animation: star-breathe 3s ease-in-out infinite;
+  }
+
   /* Gradient Utilities */
   .bg-gradient-radial {
     background: radial-gradient(circle, var(--tw-gradient-from), var(--tw-gradient-to));
@@ -166,4 +174,14 @@
 @keyframes star-twinkle {
   0% { opacity: 0.6; filter: brightness(0.8); }
   100% { opacity: 1; filter: brightness(1.2); }
+}
+
+@keyframes bear-float {
+  0%, 100% { transform: translateY(0px) rotate(-2deg); }
+  50% { transform: translateY(-6px) rotate(2deg); }
+}
+
+@keyframes star-breathe {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.1); }
 }
