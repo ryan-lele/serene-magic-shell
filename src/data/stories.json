@@ -1,0 +1,62 @@
+[
+  {
+    "id": "bear-under-stars",
+    "title": "星空下的小熊",
+    "description": "和梦境守护者小熊一起，在繁星点点的夜空下开始一场温柔的冒险，让柔和的星光带你进入甜美的梦乡。",
+    "duration": "15分钟",
+    "category": "安眠故事",
+    "audioUrl": "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+    "cardIconType": "star",
+    "playerImageUrl": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+  },
+  {
+    "id": "magic-forest-secret",
+    "title": "魔法森林的秘密",
+    "description": "跟随萤火虫的光芒，走进一个充满奇迹和温暖的魔法森林，发现隐藏在树叶间的神秘宝藏。",
+    "duration": "12分钟",
+    "category": "魔法冒险",
+    "audioUrl": "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+    "cardIconType": "sparkles",
+    "playerImageUrl": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+  },
+  {
+    "id": "cloud-journey",
+    "title": "云朵上的旅行",
+    "description": "乘坐柔软的云朵，在天空中自由飞翔，看遍世界各地的美丽风景，感受云端的宁静与自由。",
+    "duration": "18分钟",
+    "category": "温柔冒险",
+    "audioUrl": "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+    "cardIconType": "moon",
+    "playerImageUrl": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+  },
+  {
+    "id": "rainbow-promise",
+    "title": "彩虹桥的约定",
+    "description": "在雨后的彩虹桥上，小动物们互相帮助，学习友谊的真谛，一起守护这座美丽的七彩桥梁。",
+    "duration": "20分钟",
+    "category": "友谊故事",
+    "audioUrl": "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+    "cardIconType": "rainbow",
+    "playerImageUrl": "https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+  },
+  {
+    "id": "ocean-lullaby",
+    "title": "海洋深处的摇篮曲",
+    "description": "潜入深蓝色的海洋，听鲸鱼妈妈唱给小鲸鱼的温柔摇篮曲，让海浪声带你进入最深沉的睡眠。",
+    "duration": "22分钟",
+    "category": "深度安眠",
+    "audioUrl": "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+    "cardIconType": "ocean",
+    "playerImageUrl": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+  },
+  {
+    "id": "winter-snow-palace",
+    "title": "雪花宫殿的秘密",
+    "description": "在冬日的雪花宫殿里，雪精灵们为小朋友们编织最美的雪花梦境，每一片雪花都承载着温暖的祝福。",
+    "duration": "16分钟",
+    "category": "冬日温暖",
+    "audioUrl": "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+    "cardIconType": "snowflake",
+    "playerImageUrl": "https://images.unsplash.com/photo-1483086431886-3590a88317fe?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+  }
+]

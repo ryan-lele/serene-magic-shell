@@ -1,24 +1,105 @@
 import { ArrowLeft, Play, Pause, Clock } from "lucide-react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import storiesData from "@/data/stories.json";
+
+interface Story {
+  id: string;
+  title: string;
+  description: string;
+  duration: string;
+  category: string;
+  audioUrl: string;
+  cardIconType: string;
+  playerImageUrl: string;
+}
 
 const PlayerScreen = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { storyId } = useParams();
+  const audioRef = useRef<HTMLAudioElement>(null);
+  
   const [isPlaying, setIsPlaying] = useState(false);
   const [showControls, setShowControls] = useState(true);
+  const [currentStory, setCurrentStory] = useState<Story | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Get story data from navigation state
-  const storyData = location.state || {
-    title: "星空下的小熊",
-    duration: "15分钟"
-  };
+  useEffect(() => {
+    // Try to get story data from navigation state first
+    const stateData = location.state;
+    
+    if (stateData) {
+      setCurrentStory(stateData);
+      setIsLoading(false);
+    } else if (storyId) {
+      // Fallback: find story by ID from JSON data
+      const story = storiesData.find(s => s.id === storyId);
+      if (story) {
+        setCurrentStory(story);
+        setIsLoading(false);
+      } else {
+        setError("故事未找到");
+        setIsLoading(false);
+      }
+    } else {
+      setError("无效的故事链接");
+      setIsLoading(false);
+    }
+  }, [storyId, location.state]);
 
-  const handlePlayPause = () => {
-    setIsPlaying(!isPlaying);
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !currentStory) return;
+
+    const handleLoadStart = () => setIsLoading(true);
+    const handleCanPlay = () => setIsLoading(false);
+    const handleError = () => {
+      setError("音频加载失败");
+      setIsLoading(false);
+      setIsPlaying(false);
+    };
+    const handleEnded = () => setIsPlaying(false);
+
+    audio.addEventListener('loadstart', handleLoadStart);
+    audio.addEventListener('canplay', handleCanPlay);
+    audio.addEventListener('error', handleError);
+    audio.addEventListener('ended', handleEnded);
+
+    return () => {
+      audio.removeEventListener('loadstart', handleLoadStart);
+      audio.removeEventListener('canplay', handleCanPlay);
+      audio.removeEventListener('error', handleError);
+      audio.removeEventListener('ended', handleEnded);
+    };
+  }, [currentStory]);
+
+  const handlePlayPause = async () => {
+    const audio = audioRef.current;
+    if (!audio || !currentStory) return;
+
+    try {
+      if (isPlaying) {
+        audio.pause();
+        setIsPlaying(false);
+      } else {
+        await audio.play();
+        setIsPlaying(true);
+      }
+    } catch (error) {
+      console.error("播放失败:", error);
+      setError("播放失败，请重试");
+      setIsPlaying(false);
+    }
   };
 
   const handleBack = () => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio.pause();
+      setIsPlaying(false);
+    }
     navigate("/");
   };
 
@@ -26,12 +107,41 @@ const PlayerScreen = () => {
     setShowControls(!showControls);
   };
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background to-card">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-primary/30 border-t-primary rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-muted-foreground font-nunito">正在加载魔法故事...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !currentStory) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background to-card">
+        <div className="text-center">
+          <p className="text-destructive font-nunito mb-4">{error || "故事加载失败"}</p>
+          <button
+            onClick={handleBack}
+            className="btn-magic"
+          >
+            返回故事选择
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div 
       className="min-h-screen relative overflow-hidden cursor-pointer"
       onClick={toggleControls}
       style={{
-        background: `
+        background: currentStory.playerImageUrl 
+          ? `linear-gradient(rgba(34, 40, 49, 0.7), rgba(34, 40, 49, 0.8)), url(${currentStory.playerImageUrl})`
+          : `
           linear-gradient(135deg, 
             hsl(222 47% 8%) 0%, 
             hsl(270 30% 15%) 30%, 
@@ -41,9 +151,19 @@ const PlayerScreen = () => {
           radial-gradient(circle at 20% 80%, hsl(45 100% 70% / 0.1) 0%, transparent 50%),
           radial-gradient(circle at 80% 20%, hsl(270 50% 40% / 0.1) 0%, transparent 50%),
           radial-gradient(circle at 40% 40%, hsl(45 100% 70% / 0.05) 0%, transparent 50%)
-        `
+        `,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
       }}
     >
+      {/* Hidden Audio Element */}
+      <audio
+        ref={audioRef}
+        src={currentStory.audioUrl}
+        preload="metadata"
+      />
+
       {/* Immersive Background Pattern */}
       <div className="absolute inset-0 opacity-20">
         <div className="w-full h-full relative">
@@ -65,10 +185,10 @@ const PlayerScreen = () => {
       <div className={`absolute top-0 left-0 right-0 z-30 pt-16 pb-8 bg-gradient-to-b from-background/40 to-transparent transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}>
         <div className="text-center px-6">
           <h1 className="text-2xl md:text-3xl font-bold text-foreground font-nunito mb-2">
-            {storyData.title}
+            {currentStory.title}
           </h1>
           <p className="text-muted-foreground text-sm font-nunito">
-            {storyData.duration} • 安眠故事
+            {currentStory.duration} • {currentStory.category}
           </p>
         </div>
       </div>
@@ -169,8 +289,15 @@ const PlayerScreen = () => {
         {/* Playing Status */}
         <div className="text-center mt-4">
           <p className="text-sm text-muted-foreground font-nunito">
-            {isPlaying ? "正在播放..." : "点击播放开始你的梦境之旅"}
+            {isLoading ? "正在准备音频..." : 
+             isPlaying ? "正在播放..." : 
+             error ? "播放遇到问题" : "点击播放开始你的梦境之旅"}
           </p>
+          {error && (
+            <p className="text-xs text-destructive font-nunito mt-1">
+              {error}
+            </p>
+          )}
         </div>
       </div>
 

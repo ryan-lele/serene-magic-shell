@@ -1,51 +1,120 @@
 import { Moon, Sparkles, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import storiesData from "@/data/stories.json";
+
+interface Story {
+  id: string;
+  title: string;
+  description: string;
+  duration: string;
+  category: string;
+  audioUrl: string;
+  cardIconType: string;
+  playerImageUrl: string;
+}
 
 const DreamLanding = () => {
   const navigate = useNavigate();
+  const [stories, setStories] = useState<Story[]>([]);
 
-  const stories = [
-    {
-      id: "bear-under-stars",
-      title: "星空下的小熊",
-      duration: "15分钟",
-      category: "安眠故事"
-    },
-    {
-      id: "magic-forest-secret",
-      title: "魔法森林的秘密",
-      duration: "12分钟",
-      category: "魔法冒险"
-    },
-    {
-      id: "cloud-journey",
-      title: "云朵上的旅行",
-      duration: "18分钟",
-      category: "温柔冒险"
-    },
-    {
-      id: "rainbow-promise",
-      title: "彩虹桥的约定",
-      duration: "20分钟",
-      category: "友谊故事"
-    },
-    {
-      id: "ocean-lullaby",
-      title: "海洋深处的摇篮曲",
-      duration: "22分钟",
-      category: "深度安眠"
-    }
-  ];
+  useEffect(() => {
+    // Load stories from JSON data
+    setStories(storiesData);
+  }, []);
 
-  const handleStoryClick = (story: typeof stories[0]) => {
+  const handleStoryClick = (story: Story) => {
     navigate(`/player/${story.id}`, {
       state: {
         title: story.title,
+        description: story.description,
         duration: story.duration,
         category: story.category,
-        id: story.id
+        id: story.id,
+        audioUrl: story.audioUrl,
+        playerImageUrl: story.playerImageUrl
       }
     });
+  };
+
+  const renderStoryIcon = (iconType: string, index: number) => {
+    switch (iconType) {
+      case "star":
+        return (
+          <>
+            <Star className="w-16 h-16 text-primary mx-auto mb-2 star-twinkle" fill="currentColor" />
+            <Moon className="w-8 h-8 text-accent/60 mx-auto gentle-float" />
+          </>
+        );
+      case "sparkles":
+        return (
+          <>
+            <Sparkles className="w-14 h-14 text-accent mx-auto mb-3 star-breathe" />
+            <div className="flex gap-2">
+              <div className="w-3 h-8 bg-accent/30 rounded-full"></div>
+              <div className="w-3 h-10 bg-accent/40 rounded-full"></div>
+              <div className="w-3 h-6 bg-accent/30 rounded-full"></div>
+            </div>
+          </>
+        );
+      case "moon":
+        return (
+          <>
+            <Moon className="w-12 h-12 text-primary mx-auto mb-4 breathe" />
+            <div className="flex justify-center gap-1">
+              <Sparkles className="w-2 h-2 text-accent star-breathe" />
+              <Sparkles className="w-3 h-3 text-primary star-breathe" style={{ animationDelay: '0.5s' }} />
+              <Sparkles className="w-2 h-2 text-accent star-breathe" style={{ animationDelay: '1s' }} />
+            </div>
+          </>
+        );
+      case "rainbow":
+        return (
+          <>
+            <div className="relative">
+              <Star className="w-10 h-10 text-accent mx-auto star-twinkle" fill="currentColor" />
+              <Star className="w-6 h-6 text-primary absolute -top-2 -right-2 star-breathe" fill="currentColor" />
+            </div>
+            <div className="mt-4 flex justify-center">
+              <div className="w-12 h-2 bg-gradient-to-r from-primary/40 to-accent/40 rounded-full gentle-float"></div>
+            </div>
+          </>
+        );
+      case "ocean":
+        return (
+          <>
+            <div className="relative">
+              <Moon className="w-8 h-8 text-primary mx-auto gentle-float" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-4 h-4 bg-accent/60 rounded-full bear-float"></div>
+              </div>
+            </div>
+            <div className="mt-6 flex justify-center gap-2">
+              <Sparkles className="w-2 h-2 text-accent/60 star-breathe" />
+              <Sparkles className="w-2 h-2 text-primary/60 star-breathe" style={{ animationDelay: '1s' }} />
+              <Sparkles className="w-2 h-2 text-accent/60 star-breathe" style={{ animationDelay: '2s' }} />
+            </div>
+          </>
+        );
+      case "snowflake":
+        return (
+          <>
+            <div className="relative">
+              <Sparkles className="w-12 h-12 text-primary mx-auto star-twinkle" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-6 h-6 border-2 border-accent/40 rounded-full gentle-float"></div>
+              </div>
+            </div>
+            <div className="mt-4 flex justify-center gap-1">
+              <div className="w-1 h-1 bg-accent/60 rounded-full star-breathe"></div>
+              <div className="w-1 h-1 bg-primary/60 rounded-full star-breathe" style={{ animationDelay: '0.5s' }}></div>
+              <div className="w-1 h-1 bg-accent/60 rounded-full star-breathe" style={{ animationDelay: '1s' }}></div>
+            </div>
+          </>
+        );
+      default:
+        return <Star className="w-16 h-16 text-primary mx-auto mb-2 star-twinkle" fill="currentColor" />;
+    }
   };
   return (
     <div className="text-center space-y-8">
@@ -114,58 +183,7 @@ const DreamLanding = () => {
             {/* 80% Illustration Area */}
             <div className="h-4/5 relative bg-gradient-to-br from-primary/5 via-accent/5 to-primary/10 flex items-center justify-center">
               <div className="text-center">
-                {index === 0 && (
-                  <>
-                    <Star className="w-16 h-16 text-primary mx-auto mb-2 star-twinkle" fill="currentColor" />
-                    <Moon className="w-8 h-8 text-accent/60 mx-auto gentle-float" />
-                  </>
-                )}
-                {index === 1 && (
-                  <>
-                    <Sparkles className="w-14 h-14 text-accent mx-auto mb-3 star-breathe" />
-                    <div className="flex gap-2">
-                      <div className="w-3 h-8 bg-accent/30 rounded-full"></div>
-                      <div className="w-3 h-10 bg-accent/40 rounded-full"></div>
-                      <div className="w-3 h-6 bg-accent/30 rounded-full"></div>
-                    </div>
-                  </>
-                )}
-                {index === 2 && (
-                  <>
-                    <Moon className="w-12 h-12 text-primary mx-auto mb-4 breathe" />
-                    <div className="flex justify-center gap-1">
-                      <Sparkles className="w-2 h-2 text-accent star-breathe" />
-                      <Sparkles className="w-3 h-3 text-primary star-breathe" style={{ animationDelay: '0.5s' }} />
-                      <Sparkles className="w-2 h-2 text-accent star-breathe" style={{ animationDelay: '1s' }} />
-                    </div>
-                  </>
-                )}
-                {index === 3 && (
-                  <>
-                    <div className="relative">
-                      <Star className="w-10 h-10 text-accent mx-auto star-twinkle" fill="currentColor" />
-                      <Star className="w-6 h-6 text-primary absolute -top-2 -right-2 star-breathe" fill="currentColor" />
-                    </div>
-                    <div className="mt-4 flex justify-center">
-                      <div className="w-12 h-2 bg-gradient-to-r from-primary/40 to-accent/40 rounded-full gentle-float"></div>
-                    </div>
-                  </>
-                )}
-                {index === 4 && (
-                  <>
-                    <div className="relative">
-                      <Moon className="w-8 h-8 text-primary mx-auto gentle-float" />
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-4 h-4 bg-accent/60 rounded-full bear-float"></div>
-                      </div>
-                    </div>
-                    <div className="mt-6 flex justify-center gap-2">
-                      <Sparkles className="w-2 h-2 text-accent/60 star-breathe" />
-                      <Sparkles className="w-2 h-2 text-primary/60 star-breathe" style={{ animationDelay: '1s' }} />
-                      <Sparkles className="w-2 h-2 text-accent/60 star-breathe" style={{ animationDelay: '2s' }} />
-                    </div>
-                  </>
-                )}
+                {renderStoryIcon(story.cardIconType, index)}
               </div>
             </div>
             
